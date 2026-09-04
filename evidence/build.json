@@ -1,0 +1,27 @@
+{
+  "module": "github.com/cbeauhilton/usps-states",
+  "version": "v0.0.0-20260904110442-b84a2d9a5db7",
+  "go_version": "go1.26.4",
+  "vcs_revision": "b84a2d9a5db7f439a12b8fa35e4a0d5b2e240c91",
+  "vcs_time": "2026-09-04T11:04:42Z",
+  "vcs_modified": false,
+  "vcs_stamped": true,
+  "goos": "linux",
+  "goarch": "amd64",
+  "sources": {
+    "build.go": "b63ab874391f42918c0d8a5f756fef2f6c7f2bd7fbb859c2f8bdbf3ab4ea31b7",
+    "cache.go": "7c2a6a1aea413fecc7c23482473f732715188b153bce0bcc2931e76e1e31aaac",
+    "generate.go": "6311c31c3f02f3e61f8d2fa271d884f5a4d1b15c05f5a8b6123b4debcf3ddf26",
+    "history.go": "732f3adca5370432ad82fcd9a77579db6d6518e8a8457e52b71fb79028358689",
+    "main.go": "30bf28f006a114546a8e43ea9bdff57d4ca965069f04ec698178f040fc718eac",
+    "parse_test.go": "a8bae030974a63e509d66972dc79699d01781b009efb3f055c3aaa911234d353",
+    "rdf.go": "b37f09911338406c4db5361fd21e50875c909ca9979feb0ffa493679cefd3117"
+  },
+  "dependencies": {
+    "golang.org/x/net@v0.58.0": "h1:ynWG7rqYi4ccpTEuPZ2QGWHktVEM9DMCj9yzDE0Q7To="
+  },
+  "binary_sha256": "eeaf13a3ab581b0820557a1ad57f2d700c6f28ae0677a3932003fea856749bd5",
+  "trimpath": false,
+  "binary_reproducible": false,
+  "ref": "v0.1.0"
+}

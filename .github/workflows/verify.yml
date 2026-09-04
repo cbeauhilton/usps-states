@@ -1,0 +1,63 @@
+name: verify
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '17 6 * * 1'   # Mondays: has the authority moved?
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with: { go-version: stable }
+      - run: go vet ./...
+      # Offline: parses the committed evidence file, so it still passes when
+      # USPS is down.
+      - run: go test ./...
+
+  authority:
+    # Network. Fails when the published list stops matching the authority,
+    # which is the entire point of publishing it.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with: { go-version: stable }
+      # -refresh so a cached copy can never stand in for the authority in CI.
+      - run: go run . verify -refresh
+
+  canonical:
+    # The version IRI is a hash of dist/usps-states.nt, and the artefact claims
+    # that file is RDFC-1.0 canonical form. That is a checkable claim about a
+    # W3C Recommendation, so check it against an independent implementation
+    # rather than against ourselves.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: dist/usps-states.nt is RDFC-1.0 canonical
+        run: |
+          uvx --with pyld python3 - <<'PY'
+          from pyld import jsonld
+          ours = open('dist/usps-states.nt').read()
+          canon = jsonld.JsonLdProcessor().normalize(ours, {
+              'algorithm': 'URDNA2015',
+              'inputFormat': 'application/n-quads',
+              'format': 'application/n-quads'})
+          assert canon == ours, "dist/usps-states.nt is not RDFC-1.0 canonical form"
+          print("RDFC-1.0 canonical:", len(ours.splitlines()), "quads")
+          PY
+
+      - name: the verification recipe in the README actually works
+        run: |
+          CODE=$(grep -o 'RA[A-Za-z0-9_-]\{43\}' dist/usps-states.ttl | head -1)
+          BASE=https://github.com/cbeauhilton/usps-states/version
+          GOT=$(sed "s|<$BASE/$CODE>|<$BASE/ >|" dist/usps-states.nt \
+                | LC_ALL=C sort | sha256sum | cut -d' ' -f1 \
+                | xxd -r -p | base64 | tr '+/' '-_' | tr -d '=\n' | sed 's/^/RA/')
+          echo "claimed:    $CODE"
+          echo "recomputed: $GOT"
+          test "$CODE" = "$GOT"

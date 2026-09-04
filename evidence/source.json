@@ -1,0 +1,10 @@
+{
+  "url": "https://pe.usps.com/text/pub28/28apb.htm",
+  "sha256": "a83a610ad309437df9d903dd6bbfc9ce93049d8986cb2702e7b080cce76c1145",
+  "bytes": 66912,
+  "fetched_at": "2026-09-04T00:42:48Z",
+  "user_agent": "usps-states/1.0 (+https://github.com/cbeauhilton/usps-states)",
+  "status_code": 200,
+  "concepts": 62,
+  "content_changed_at": "2026-09-04T00:42:48Z"
+}

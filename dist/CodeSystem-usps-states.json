@@ -1,0 +1,271 @@
+{
+  "caseSensitive": true,
+  "concept": [
+    {
+      "code": "AA",
+      "display": "Armed Forces Americas(except Canada)"
+    },
+    {
+      "code": "AE",
+      "display": "Armed Forces Europe, the Middle East, and Canada"
+    },
+    {
+      "code": "AK",
+      "display": "Alaska"
+    },
+    {
+      "code": "AL",
+      "display": "Alabama"
+    },
+    {
+      "code": "AP",
+      "display": "Armed Forces Pacific"
+    },
+    {
+      "code": "AR",
+      "display": "Arkansas"
+    },
+    {
+      "code": "AS",
+      "display": "American Samoa"
+    },
+    {
+      "code": "AZ",
+      "display": "Arizona"
+    },
+    {
+      "code": "CA",
+      "display": "California"
+    },
+    {
+      "code": "CO",
+      "display": "Colorado"
+    },
+    {
+      "code": "CT",
+      "display": "Connecticut"
+    },
+    {
+      "code": "DC",
+      "display": "District of Columbia"
+    },
+    {
+      "code": "DE",
+      "display": "Delaware"
+    },
+    {
+      "code": "FL",
+      "display": "Florida"
+    },
+    {
+      "code": "FM",
+      "display": "Federated States of Micronesia"
+    },
+    {
+      "code": "GA",
+      "display": "Georgia"
+    },
+    {
+      "code": "GU",
+      "display": "Guam"
+    },
+    {
+      "code": "HI",
+      "display": "Hawaii"
+    },
+    {
+      "code": "IA",
+      "display": "Iowa"
+    },
+    {
+      "code": "ID",
+      "display": "Idaho"
+    },
+    {
+      "code": "IL",
+      "display": "Illinois"
+    },
+    {
+      "code": "IN",
+      "display": "Indiana"
+    },
+    {
+      "code": "KS",
+      "display": "Kansas"
+    },
+    {
+      "code": "KY",
+      "display": "Kentucky"
+    },
+    {
+      "code": "LA",
+      "display": "Louisiana"
+    },
+    {
+      "code": "MA",
+      "display": "Massachusetts"
+    },
+    {
+      "code": "MD",
+      "display": "Maryland"
+    },
+    {
+      "code": "ME",
+      "display": "Maine"
+    },
+    {
+      "code": "MH",
+      "display": "Marshall Islands"
+    },
+    {
+      "code": "MI",
+      "display": "Michigan"
+    },
+    {
+      "code": "MN",
+      "display": "Minnesota"
+    },
+    {
+      "code": "MO",
+      "display": "Missouri"
+    },
+    {
+      "code": "MP",
+      "display": "Northern Mariana Islands"
+    },
+    {
+      "code": "MS",
+      "display": "Mississippi"
+    },
+    {
+      "code": "MT",
+      "display": "Montana"
+    },
+    {
+      "code": "NC",
+      "display": "North Carolina"
+    },
+    {
+      "code": "ND",
+      "display": "North Dakota"
+    },
+    {
+      "code": "NE",
+      "display": "Nebraska"
+    },
+    {
+      "code": "NH",
+      "display": "New Hampshire"
+    },
+    {
+      "code": "NJ",
+      "display": "New Jersey"
+    },
+    {
+      "code": "NM",
+      "display": "New Mexico"
+    },
+    {
+      "code": "NV",
+      "display": "Nevada"
+    },
+    {
+      "code": "NY",
+      "display": "New York"
+    },
+    {
+      "code": "OH",
+      "display": "Ohio"
+    },
+    {
+      "code": "OK",
+      "display": "Oklahoma"
+    },
+    {
+      "code": "OR",
+      "display": "Oregon"
+    },
+    {
+      "code": "PA",
+      "display": "Pennsylvania"
+    },
+    {
+      "code": "PR",
+      "display": "Puerto Rico"
+    },
+    {
+      "code": "PW",
+      "display": "Palau"
+    },
+    {
+      "code": "RI",
+      "display": "Rhode Island"
+    },
+    {
+      "code": "SC",
+      "display": "South Carolina"
+    },
+    {
+      "code": "SD",
+      "display": "South Dakota"
+    },
+    {
+      "code": "TN",
+      "display": "Tennessee"
+    },
+    {
+      "code": "TX",
+      "display": "Texas"
+    },
+    {
+      "code": "UT",
+      "display": "Utah"
+    },
+    {
+      "code": "VA",
+      "display": "Virginia"
+    },
+    {
+      "code": "VI",
+      "display": "Virgin Islands"
+    },
+    {
+      "code": "VT",
+      "display": "Vermont"
+    },
+    {
+      "code": "WA",
+      "display": "Washington"
+    },
+    {
+      "code": "WI",
+      "display": "Wisconsin"
+    },
+    {
+      "code": "WV",
+      "display": "West Virginia"
+    },
+    {
+      "code": "WY",
+      "display": "Wyoming"
+    }
+  ],
+  "content": "complete",
+  "copyright": "The abbreviations are facts and are not claimed. This compilation is released under CC0 1.0. USPS asserts copyright over material on its website; that notice is reproduced in the README and is a claim about that site, not about this list.",
+  "count": 62,
+  "date": "2026-09-04T00:42:48Z",
+  "description": "The two-letter state, possession and military abbreviations from USPS Publication 28 Appendix B, derived from the authority and republished as data. This is NOT a United States Postal Service product and carries no USPS endorsement. See dist/usps-states.ttl for the full derivation chain.",
+  "experimental": false,
+  "id": "usps-states",
+  "name": "USPSStates",
+  "publisher": "github.com/cbeauhilton/usps-states",
+  "resourceType": "CodeSystem",
+  "status": "active",
+  "text": {
+    "div": "\u003cdiv xmlns=\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eUSPS state and possession abbreviations, version 2026-09-04: 62 codes derived from Publication 28 Appendix B. Not a United States Postal Service product.\u003c/p\u003e\u003ctable\u003e\u003ctr\u003e\u003cth\u003eCode\u003c/th\u003e\u003cth\u003eDisplay\u003c/th\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eAA\u003c/td\u003e\u003ctd\u003eArmed Forces Americas(except Canada)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eAE\u003c/td\u003e\u003ctd\u003eArmed Forces Europe, the Middle East, and Canada\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eAK\u003c/td\u003e\u003ctd\u003eAlaska\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eAL\u003c/td\u003e\u003ctd\u003eAlabama\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eAP\u003c/td\u003e\u003ctd\u003eArmed Forces Pacific\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eAR\u003c/td\u003e\u003ctd\u003eArkansas\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eAS\u003c/td\u003e\u003ctd\u003eAmerican Samoa\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eAZ\u003c/td\u003e\u003ctd\u003eArizona\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eCA\u003c/td\u003e\u003ctd\u003eCalifornia\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eCO\u003c/td\u003e\u003ctd\u003eColorado\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eCT\u003c/td\u003e\u003ctd\u003eConnecticut\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eDC\u003c/td\u003e\u003ctd\u003eDistrict of Columbia\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eDE\u003c/td\u003e\u003ctd\u003eDelaware\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eFL\u003c/td\u003e\u003ctd\u003eFlorida\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eFM\u003c/td\u003e\u003ctd\u003eFederated States of Micronesia\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eGA\u003c/td\u003e\u003ctd\u003eGeorgia\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eGU\u003c/td\u003e\u003ctd\u003eGuam\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eHI\u003c/td\u003e\u003ctd\u003eHawaii\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eIA\u003c/td\u003e\u003ctd\u003eIowa\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eID\u003c/td\u003e\u003ctd\u003eIdaho\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eIL\u003c/td\u003e\u003ctd\u003eIllinois\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eIN\u003c/td\u003e\u003ctd\u003eIndiana\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eKS\u003c/td\u003e\u003ctd\u003eKansas\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eKY\u003c/td\u003e\u003ctd\u003eKentucky\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eLA\u003c/td\u003e\u003ctd\u003eLouisiana\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eMA\u003c/td\u003e\u003ctd\u003eMassachusetts\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eMD\u003c/td\u003e\u003ctd\u003eMaryland\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eME\u003c/td\u003e\u003ctd\u003eMaine\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eMH\u003c/td\u003e\u003ctd\u003eMarshall Islands\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eMI\u003c/td\u003e\u003ctd\u003eMichigan\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eMN\u003c/td\u003e\u003ctd\u003eMinnesota\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eMO\u003c/td\u003e\u003ctd\u003eMissouri\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eMP\u003c/td\u003e\u003ctd\u003eNorthern Mariana Islands\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eMS\u003c/td\u003e\u003ctd\u003eMississippi\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eMT\u003c/td\u003e\u003ctd\u003eMontana\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eNC\u003c/td\u003e\u003ctd\u003eNorth Carolina\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eND\u003c/td\u003e\u003ctd\u003eNorth Dakota\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eNE\u003c/td\u003e\u003ctd\u003eNebraska\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eNH\u003c/td\u003e\u003ctd\u003eNew Hampshire\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eNJ\u003c/td\u003e\u003ctd\u003eNew Jersey\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eNM\u003c/td\u003e\u003ctd\u003eNew Mexico\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eNV\u003c/td\u003e\u003ctd\u003eNevada\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eNY\u003c/td\u003e\u003ctd\u003eNew York\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eOH\u003c/td\u003e\u003ctd\u003eOhio\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eOK\u003c/td\u003e\u003ctd\u003eOklahoma\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eOR\u003c/td\u003e\u003ctd\u003eOregon\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003ePA\u003c/td\u003e\u003ctd\u003ePennsylvania\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003ePR\u003c/td\u003e\u003ctd\u003ePuerto Rico\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003ePW\u003c/td\u003e\u003ctd\u003ePalau\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eRI\u003c/td\u003e\u003ctd\u003eRhode Island\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eSC\u003c/td\u003e\u003ctd\u003eSouth Carolina\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eSD\u003c/td\u003e\u003ctd\u003eSouth Dakota\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eTN\u003c/td\u003e\u003ctd\u003eTennessee\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eTX\u003c/td\u003e\u003ctd\u003eTexas\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eUT\u003c/td\u003e\u003ctd\u003eUtah\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eVA\u003c/td\u003e\u003ctd\u003eVirginia\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eVI\u003c/td\u003e\u003ctd\u003eVirgin Islands\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eVT\u003c/td\u003e\u003ctd\u003eVermont\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eWA\u003c/td\u003e\u003ctd\u003eWashington\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eWI\u003c/td\u003e\u003ctd\u003eWisconsin\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eWV\u003c/td\u003e\u003ctd\u003eWest Virginia\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eWY\u003c/td\u003e\u003ctd\u003eWyoming\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e",
+    "status": "generated"
+  },
+  "title": "USPS state and possession abbreviations",
+  "url": "https://www.usps.com/",
+  "version": "2026-09-04"
+}

@@ -1,0 +1,108 @@
+{
+  "url": "https://pe.usps.com/text/pub28/28apb.htm",
+  "measured_at": "2026-09-04T01:16:23Z",
+  "archive_captures_total": 90,
+  "snapshots_usable": 14,
+  "code_set_changes": 0,
+  "span": "2012-09-22 to 2026-01-10",
+  "snapshots": [
+    {
+      "timestamp": "20120922032708",
+      "date": "2012-09-22",
+      "cdx_digest": "457YTGK67ZSC7ATFNLQCCAV5MELAOPSK",
+      "bytes": 35073,
+      "concepts": 62
+    },
+    {
+      "timestamp": "20131014032455",
+      "date": "2013-10-14",
+      "cdx_digest": "IU4YWHRN56M2VY7EIH434OURHODNFEQE",
+      "bytes": 34888,
+      "concepts": 62
+    },
+    {
+      "timestamp": "20150630153022",
+      "date": "2015-06-30",
+      "cdx_digest": "INT54X2TXSLLMECRYX5T6FTQ5572E5JU",
+      "bytes": 35704,
+      "concepts": 62
+    },
+    {
+      "timestamp": "20160628150639",
+      "date": "2016-06-28",
+      "cdx_digest": "64KYOFEO3CCGNRFMBJ37YPWFUYMARP3Q",
+      "bytes": 57200,
+      "concepts": 62
+    },
+    {
+      "timestamp": "20170602150351",
+      "date": "2017-06-02",
+      "cdx_digest": "BAP4NFBORZGCPMWZUDZC46NYJYYBSLDE",
+      "bytes": 57889,
+      "concepts": 62
+    },
+    {
+      "timestamp": "20180305202445",
+      "date": "2018-03-05",
+      "cdx_digest": "QLU22O3U4BM7O75IZOZNETKYRQDOOJEN",
+      "bytes": 58023,
+      "concepts": 62
+    },
+    {
+      "timestamp": "20190314104036",
+      "date": "2019-03-14",
+      "cdx_digest": "7UYVMJMJTD2AJOHVOZI2ID5VJA26735J",
+      "bytes": 57939,
+      "concepts": 62
+    },
+    {
+      "timestamp": "20200207094822",
+      "date": "2020-02-07",
+      "cdx_digest": "NRWX5H6DFDSW4J6JZ6OH4WAQKPJFO6JN",
+      "bytes": 57909,
+      "concepts": 62
+    },
+    {
+      "timestamp": "20210104231440",
+      "date": "2021-01-04",
+      "cdx_digest": "IDU6EAFBM35XSSQK7G5LNHUCPBX46G36",
+      "bytes": 57975,
+      "concepts": 62
+    },
+    {
+      "timestamp": "20220109202553",
+      "date": "2022-01-09",
+      "cdx_digest": "DRYI33QQAWNXLOP7EEQVTEHOWTTBHCCH",
+      "bytes": 57767,
+      "concepts": 62
+    },
+    {
+      "timestamp": "20230116202131",
+      "date": "2023-01-16",
+      "cdx_digest": "LOP3BHQN2TMOUHBHJFWCCASO2SB57JR4",
+      "bytes": 57874,
+      "concepts": 62
+    },
+    {
+      "timestamp": "20240410133718",
+      "date": "2024-04-10",
+      "cdx_digest": "MFA74M5FA73VMCR4V25H57VJH2ES3OW3",
+      "bytes": 58023,
+      "concepts": 62
+    },
+    {
+      "timestamp": "20250130035607",
+      "date": "2025-01-30",
+      "cdx_digest": "F55WSRMZBV4KA3Y5A4JL2GH3V6UXGXWO",
+      "bytes": 60111,
+      "concepts": 62
+    },
+    {
+      "timestamp": "20260110202626",
+      "date": "2026-01-10",
+      "cdx_digest": "6MUNHY3ZGM2BVIFNLUUVZS3B3BTGSF6W",
+      "bytes": 60223,
+      "concepts": 62
+    }
+  ]
+}
