@@ -39,7 +39,7 @@
     dct:source <https://github.com/cbeauhilton/usps-states> .
 
 :extraction a prov:Activity ;
-    prov:startedAtTime "2026-09-04T00:42:48Z"^^xsd:dateTime ;
+    prov:startedAtTime "2026-09-12T21:39:12Z"^^xsd:dateTime ;
     prov:used :source ;
     prov:wasAssociatedWith :publisher ;
     pav:createdWith :software ;
@@ -49,7 +49,7 @@
 # cosmetic churn. The scheme derives from THIS; this derives from the page.
 :data a prov:Entity, dcat:Distribution ;
     dct:title "data/usps-states.csv" ;
-    dct:source <https://github.com/cbeauhilton/usps-states/blob/v0.1.0/data/usps-states.csv> ;
+    dct:source <https://github.com/cbeauhilton/usps-states/blob/v0.2.0/data/usps-states.csv> ;
     dcat:mediaType <https://www.iana.org/assignments/media-types/text/csv> ;
     dcat:byteSize "927"^^xsd:nonNegativeInteger ;
     pav:importedFrom :source ;
@@ -66,22 +66,22 @@
     pav:retrievedFrom <https://pe.usps.com/text/pub28/28apb.htm> ;
     dcat:downloadURL <https://pe.usps.com/text/pub28/28apb.htm> ;
     dcat:mediaType <https://www.iana.org/assignments/media-types/text/html> ;
-    dcat:byteSize "66912"^^xsd:nonNegativeInteger ;
-    prov:generatedAtTime "2026-09-04T00:42:48Z"^^xsd:dateTime ;
+    dcat:byteSize "66911"^^xsd:nonNegativeInteger ;
+    prov:generatedAtTime "2026-09-12T21:39:12Z"^^xsd:dateTime ;
     dct:modified "2026-09-04T00:42:48Z"^^xsd:dateTime ;
     dct:isReferencedBy :history ;
     spdx:checksum :ck_source .
 
 :ck_source a spdx:Checksum ;
     spdx:algorithm spdx:checksumAlgorithm_sha256 ;
-    spdx:checksumValue "a83a610ad309437df9d903dd6bbfc9ce93049d8986cb2702e7b080cce76c1145" .
+    spdx:checksumValue "891881b62ed48d67b5f06b57a4bae88d3c9e95e2f7b59aef8b8edf8e6d03a4c3" .
 
 # How stable is the authority? Measured against the Internet Archive rather
 # than asserted. The page's bytes churn constantly; the code set does not.
 :history a prov:Entity, dcat:Distribution ;
     dct:title "evidence/history.json" ;
     dct:description "90 Internet Archive captures of the authority spanning 2012-09-22 to 2026-01-10. 14 snapshots were usable; across them the code set changed 0 times." ;
-    dct:source <https://github.com/cbeauhilton/usps-states/blob/v0.1.0/evidence/history.json> ;
+    dct:source <https://github.com/cbeauhilton/usps-states/blob/v0.2.0/evidence/history.json> ;
     dcat:mediaType <https://www.iana.org/assignments/media-types/application/json> ;
     prov:wasDerivedFrom <https://web.archive.org/> ;
     prov:generatedAtTime "2026-09-04T01:16:23Z"^^xsd:dateTime ;
@@ -345,6 +345,6 @@
 :software a prov:SoftwareAgent ;
     dct:title      "usps-states" ;
     dct:identifier "github.com/cbeauhilton/usps-states" ;
-    pav:version    "v0.1.1-0.20260912203029-947c88af28b5" ;
-    dct:hasVersion <https://github.com/cbeauhilton/usps-states/tree/947c88af28b5e977aa50767b863c7e1a49861e9b> ;
-    dct:source     <https://github.com/cbeauhilton/usps-states/tree/v0.1.0> .
+    pav:version    "v0.1.1-0.20260912203038-066ef8ff2fc8" ;
+    dct:hasVersion <https://github.com/cbeauhilton/usps-states/tree/066ef8ff2fc8d9bdb2a7acf419244028268c93ec> ;
+    dct:source     <https://github.com/cbeauhilton/usps-states/tree/v0.2.0> .

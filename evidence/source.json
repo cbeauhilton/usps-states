@@ -1,8 +1,8 @@
 {
   "url": "https://pe.usps.com/text/pub28/28apb.htm",
-  "sha256": "a83a610ad309437df9d903dd6bbfc9ce93049d8986cb2702e7b080cce76c1145",
-  "bytes": 66912,
-  "fetched_at": "2026-09-04T00:42:48Z",
+  "sha256": "891881b62ed48d67b5f06b57a4bae88d3c9e95e2f7b59aef8b8edf8e6d03a4c3",
+  "bytes": 66911,
+  "fetched_at": "2026-09-12T21:39:12Z",
   "user_agent": "usps-states/1.0 (+https://github.com/cbeauhilton/usps-states)",
   "status_code": 200,
   "concepts": 62,

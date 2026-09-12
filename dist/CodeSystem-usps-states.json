@@ -253,7 +253,7 @@
   "content": "complete",
   "copyright": "The abbreviations are facts and are not claimed. This compilation is released under CC0 1.0. USPS asserts copyright over material on its website; that notice is reproduced in the README and is a claim about that site, not about this list.",
   "count": 62,
-  "date": "2026-09-04T00:42:48Z",
+  "date": "2026-09-12T21:39:12Z",
   "description": "The two-letter state, possession and military abbreviations from USPS Publication 28 Appendix B, derived from the authority and republished as data. This is NOT a United States Postal Service product and carries no USPS endorsement. See dist/usps-states.ttl for the full derivation chain.",
   "experimental": false,
   "id": "usps-states",
