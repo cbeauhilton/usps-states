@@ -6,7 +6,6 @@
 @prefix pav:  <http://purl.org/pav/> .
 @prefix dct:  <http://purl.org/dc/terms/> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 @prefix spdx: <http://spdx.org/rdf/terms#> .
 @prefix :     <https://github.com/cbeauhilton/usps-states#> .
@@ -17,9 +16,8 @@
     # string used as a name, which is what dcterms:identifier takes — not an IRI
     # reference to the United States Postal Service, which is a different thing.
     dct:identifier "https://www.usps.com/" ;
-    # This release, named by a hash of its own content. See the note at the
-    # foot of this file for how to recompute it.
-    dct:hasVersion <https://github.com/cbeauhilton/usps-states/version/RAHnOHKVmlm-_xg8ElJ7FDwy6ZFokGfefzT5dZaXHvA14> ;
+    # USPS publishes no version, so this repository mints one: the date the
+    # code set last changed. dist/SHA256SUMS identifies the exact bytes.
     pav:version "2026-09-04" ;
     dct:issued "2026-09-04"^^xsd:date ;
     dct:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
@@ -93,371 +91,260 @@
     spdx:algorithm spdx:checksumAlgorithm_sha256 ;
     spdx:checksumValue "f23be9c75eedd005385d86bbb31a650adcf6ed52ed0e936e9901ef7a16fd3661" .
 
-:extraction prov:qualifiedAssociation [
-        a prov:Association ;
-        prov:agent   :software ;
-        prov:hadPlan :plan ] .
+:AA a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "AA" ;
+    skos:prefLabel "Armed Forces Americas(except Canada)"@en .
+:AE a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "AE" ;
+    skos:prefLabel "Armed Forces Europe, the Middle East, and Canada"@en .
+:AK a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "AK" ;
+    skos:prefLabel "Alaska"@en .
+:AL a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "AL" ;
+    skos:prefLabel "Alabama"@en .
+:AP a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "AP" ;
+    skos:prefLabel "Armed Forces Pacific"@en .
+:AR a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "AR" ;
+    skos:prefLabel "Arkansas"@en .
+:AS a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "AS" ;
+    skos:prefLabel "American Samoa"@en .
+:AZ a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "AZ" ;
+    skos:prefLabel "Arizona"@en .
+:CA a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "CA" ;
+    skos:prefLabel "California"@en .
+:CO a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "CO" ;
+    skos:prefLabel "Colorado"@en .
+:CT a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "CT" ;
+    skos:prefLabel "Connecticut"@en .
+:DC a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "DC" ;
+    skos:prefLabel "District of Columbia"@en .
+:DE a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "DE" ;
+    skos:prefLabel "Delaware"@en .
+:FL a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "FL" ;
+    skos:prefLabel "Florida"@en .
+:FM a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "FM" ;
+    skos:prefLabel "Federated States of Micronesia"@en .
+:GA a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "GA" ;
+    skos:prefLabel "Georgia"@en .
+:GU a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "GU" ;
+    skos:prefLabel "Guam"@en .
+:HI a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "HI" ;
+    skos:prefLabel "Hawaii"@en .
+:IA a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "IA" ;
+    skos:prefLabel "Iowa"@en .
+:ID a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "ID" ;
+    skos:prefLabel "Idaho"@en .
+:IL a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "IL" ;
+    skos:prefLabel "Illinois"@en .
+:IN a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "IN" ;
+    skos:prefLabel "Indiana"@en .
+:KS a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "KS" ;
+    skos:prefLabel "Kansas"@en .
+:KY a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "KY" ;
+    skos:prefLabel "Kentucky"@en .
+:LA a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "LA" ;
+    skos:prefLabel "Louisiana"@en .
+:MA a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "MA" ;
+    skos:prefLabel "Massachusetts"@en .
+:MD a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "MD" ;
+    skos:prefLabel "Maryland"@en .
+:ME a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "ME" ;
+    skos:prefLabel "Maine"@en .
+:MH a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "MH" ;
+    skos:prefLabel "Marshall Islands"@en .
+:MI a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "MI" ;
+    skos:prefLabel "Michigan"@en .
+:MN a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "MN" ;
+    skos:prefLabel "Minnesota"@en .
+:MO a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "MO" ;
+    skos:prefLabel "Missouri"@en .
+:MP a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "MP" ;
+    skos:prefLabel "Northern Mariana Islands"@en .
+:MS a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "MS" ;
+    skos:prefLabel "Mississippi"@en .
+:MT a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "MT" ;
+    skos:prefLabel "Montana"@en .
+:NC a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "NC" ;
+    skos:prefLabel "North Carolina"@en .
+:ND a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "ND" ;
+    skos:prefLabel "North Dakota"@en .
+:NE a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "NE" ;
+    skos:prefLabel "Nebraska"@en .
+:NH a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "NH" ;
+    skos:prefLabel "New Hampshire"@en .
+:NJ a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "NJ" ;
+    skos:prefLabel "New Jersey"@en .
+:NM a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "NM" ;
+    skos:prefLabel "New Mexico"@en .
+:NV a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "NV" ;
+    skos:prefLabel "Nevada"@en .
+:NY a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "NY" ;
+    skos:prefLabel "New York"@en .
+:OH a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "OH" ;
+    skos:prefLabel "Ohio"@en .
+:OK a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "OK" ;
+    skos:prefLabel "Oklahoma"@en .
+:OR a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "OR" ;
+    skos:prefLabel "Oregon"@en .
+:PA a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "PA" ;
+    skos:prefLabel "Pennsylvania"@en .
+:PR a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "PR" ;
+    skos:prefLabel "Puerto Rico"@en .
+:PW a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "PW" ;
+    skos:prefLabel "Palau"@en .
+:RI a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "RI" ;
+    skos:prefLabel "Rhode Island"@en .
+:SC a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "SC" ;
+    skos:prefLabel "South Carolina"@en .
+:SD a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "SD" ;
+    skos:prefLabel "South Dakota"@en .
+:TN a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "TN" ;
+    skos:prefLabel "Tennessee"@en .
+:TX a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "TX" ;
+    skos:prefLabel "Texas"@en .
+:UT a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "UT" ;
+    skos:prefLabel "Utah"@en .
+:VA a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "VA" ;
+    skos:prefLabel "Virginia"@en .
+:VI a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "VI" ;
+    skos:prefLabel "Virgin Islands"@en .
+:VT a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "VT" ;
+    skos:prefLabel "Vermont"@en .
+:WA a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "WA" ;
+    skos:prefLabel "Washington"@en .
+:WI a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "WI" ;
+    skos:prefLabel "Wisconsin"@en .
+:WV a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "WV" ;
+    skos:prefLabel "West Virginia"@en .
+:WY a skos:Concept ;
+    skos:inScheme :scheme ;
+    skos:notation "WY" ;
+    skos:prefLabel "Wyoming"@en .
 
+# The program that wrote this file. Everything above reproduces from
+# data/usps-states.csv at any commit; this block names the build that ran.
 :software a prov:SoftwareAgent ;
     dct:title      "usps-states" ;
     dct:identifier "github.com/cbeauhilton/usps-states" ;
-    pav:version    "v0.1.0+dirty" ;
-    dct:source     <https://github.com/cbeauhilton/usps-states/tree/v0.1.0> ;
-    # sha256 of the executable that ran. Reproducible by a third party
-    # only when built -trimpath -buildvcs=false; false here.
-    spdx:checksum  :ck_binary ;
-    dct:created    "2026-09-04T11:08:42Z"^^xsd:dateTime ;
-    rdfs:comment   "NOT REPRODUCIBLE: built from a working tree with uncommitted changes, so the recorded commit does not describe the code that ran." ;
-    dct:requires   "go1.26.4 linux/amd64" .
-
-:ck_binary a spdx:Checksum ;
-    spdx:algorithm    spdx:checksumAlgorithm_sha256 ;
-    spdx:checksumValue "b451056169eb77322ff0a190fecda69ef35b92239caa1fb76ec3f6d70d337fab" .
-
-# The plan is the source that ran. Each file is checksummed from the copy
-# embedded in the binary at compile time, so these describe the compiled
-# code and not whatever is on disk now.
-:plan a prov:Plan, prov:Entity ;
-    dct:source <https://github.com/cbeauhilton/usps-states/tree/v0.1.0> ;
-    # the revision resolved when this ran — the commit the code was BUILT
-    # from, which is the parent of the commit containing this file
-    pav:version "f2d307fff8faa63bc7fef61773caa8a7b7a08f9e" ;
-    dct:hasPart :src_build_go, :src_cache_go, :src_generate_go, :src_history_go, :src_main_go, :src_parse_test_go, :src_rdf_go .
-
-:src_build_go a prov:Entity ;
-    dct:title "build.go" ;
-    dct:source <https://github.com/cbeauhilton/usps-states/blob/v0.1.0/build.go> ;
-    spdx:checksum :ck_src_build_go .
-:ck_src_build_go a spdx:Checksum ;
-    spdx:algorithm    spdx:checksumAlgorithm_sha256 ;
-    spdx:checksumValue "bd806452b4af574f33e773a6b9fefa0bcd85b0f0cdcb54828552b7973f195842" .
-:src_cache_go a prov:Entity ;
-    dct:title "cache.go" ;
-    dct:source <https://github.com/cbeauhilton/usps-states/blob/v0.1.0/cache.go> ;
-    spdx:checksum :ck_src_cache_go .
-:ck_src_cache_go a spdx:Checksum ;
-    spdx:algorithm    spdx:checksumAlgorithm_sha256 ;
-    spdx:checksumValue "7c2a6a1aea413fecc7c23482473f732715188b153bce0bcc2931e76e1e31aaac" .
-:src_generate_go a prov:Entity ;
-    dct:title "generate.go" ;
-    dct:source <https://github.com/cbeauhilton/usps-states/blob/v0.1.0/generate.go> ;
-    spdx:checksum :ck_src_generate_go .
-:ck_src_generate_go a spdx:Checksum ;
-    spdx:algorithm    spdx:checksumAlgorithm_sha256 ;
-    spdx:checksumValue "647479d4e5d895c5595d8deb4c20c7817051562dccfb4fd8c6fd6d0f3203a969" .
-:src_history_go a prov:Entity ;
-    dct:title "history.go" ;
-    dct:source <https://github.com/cbeauhilton/usps-states/blob/v0.1.0/history.go> ;
-    spdx:checksum :ck_src_history_go .
-:ck_src_history_go a spdx:Checksum ;
-    spdx:algorithm    spdx:checksumAlgorithm_sha256 ;
-    spdx:checksumValue "732f3adca5370432ad82fcd9a77579db6d6518e8a8457e52b71fb79028358689" .
-:src_main_go a prov:Entity ;
-    dct:title "main.go" ;
-    dct:source <https://github.com/cbeauhilton/usps-states/blob/v0.1.0/main.go> ;
-    spdx:checksum :ck_src_main_go .
-:ck_src_main_go a spdx:Checksum ;
-    spdx:algorithm    spdx:checksumAlgorithm_sha256 ;
-    spdx:checksumValue "9d189a6ac62ea70d71c4c9f04b1e5b1a0d08821af18d17ea45c56bda4dd60989" .
-:src_parse_test_go a prov:Entity ;
-    dct:title "parse_test.go" ;
-    dct:source <https://github.com/cbeauhilton/usps-states/blob/v0.1.0/parse_test.go> ;
-    spdx:checksum :ck_src_parse_test_go .
-:ck_src_parse_test_go a spdx:Checksum ;
-    spdx:algorithm    spdx:checksumAlgorithm_sha256 ;
-    spdx:checksumValue "81d2f2d236829ffe0734fc1f2b8b1abada94a296f1a4c465d9c158fc1e7a1362" .
-:src_rdf_go a prov:Entity ;
-    dct:title "rdf.go" ;
-    dct:source <https://github.com/cbeauhilton/usps-states/blob/v0.1.0/rdf.go> ;
-    spdx:checksum :ck_src_rdf_go .
-:ck_src_rdf_go a spdx:Checksum ;
-    spdx:algorithm    spdx:checksumAlgorithm_sha256 ;
-    spdx:checksumValue "b37f09911338406c4db5361fd21e50875c909ca9979feb0ffa493679cefd3117" .
-
-# Dependency closure with the go.sum hashes the build verified. These are
-# Go module dirhashes (base64, h1: prefix), NOT raw sha256 digests, so they
-# are recorded as go.sum values rather than mislabelled as spdx checksums.
-# SLSA records the same shape: a uri, and a digest keyed by algorithm name.
-:dep0 a prov:Entity ;
-    dct:identifier "golang.org/x/net@v0.58.0" ;
-    dct:conformsTo <https://go.dev/ref/mod#go-sum-files> ;
-    prov:value     "h1:ynWG7rqYi4ccpTEuPZ2QGWHktVEM9DMCj9yzDE0Q7To=" .
-:plan dct:requires :dep0 .
-
-:AA a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "AA" ;
-    skos:prefLabel "Armed Forces Americas(except Canada)"@en .
-:AE a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "AE" ;
-    skos:prefLabel "Armed Forces Europe, the Middle East, and Canada"@en .
-:AK a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "AK" ;
-    skos:prefLabel "Alaska"@en .
-:AL a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "AL" ;
-    skos:prefLabel "Alabama"@en .
-:AP a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "AP" ;
-    skos:prefLabel "Armed Forces Pacific"@en .
-:AR a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "AR" ;
-    skos:prefLabel "Arkansas"@en .
-:AS a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "AS" ;
-    skos:prefLabel "American Samoa"@en .
-:AZ a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "AZ" ;
-    skos:prefLabel "Arizona"@en .
-:CA a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "CA" ;
-    skos:prefLabel "California"@en .
-:CO a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "CO" ;
-    skos:prefLabel "Colorado"@en .
-:CT a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "CT" ;
-    skos:prefLabel "Connecticut"@en .
-:DC a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "DC" ;
-    skos:prefLabel "District of Columbia"@en .
-:DE a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "DE" ;
-    skos:prefLabel "Delaware"@en .
-:FL a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "FL" ;
-    skos:prefLabel "Florida"@en .
-:FM a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "FM" ;
-    skos:prefLabel "Federated States of Micronesia"@en .
-:GA a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "GA" ;
-    skos:prefLabel "Georgia"@en .
-:GU a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "GU" ;
-    skos:prefLabel "Guam"@en .
-:HI a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "HI" ;
-    skos:prefLabel "Hawaii"@en .
-:IA a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "IA" ;
-    skos:prefLabel "Iowa"@en .
-:ID a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "ID" ;
-    skos:prefLabel "Idaho"@en .
-:IL a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "IL" ;
-    skos:prefLabel "Illinois"@en .
-:IN a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "IN" ;
-    skos:prefLabel "Indiana"@en .
-:KS a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "KS" ;
-    skos:prefLabel "Kansas"@en .
-:KY a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "KY" ;
-    skos:prefLabel "Kentucky"@en .
-:LA a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "LA" ;
-    skos:prefLabel "Louisiana"@en .
-:MA a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "MA" ;
-    skos:prefLabel "Massachusetts"@en .
-:MD a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "MD" ;
-    skos:prefLabel "Maryland"@en .
-:ME a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "ME" ;
-    skos:prefLabel "Maine"@en .
-:MH a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "MH" ;
-    skos:prefLabel "Marshall Islands"@en .
-:MI a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "MI" ;
-    skos:prefLabel "Michigan"@en .
-:MN a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "MN" ;
-    skos:prefLabel "Minnesota"@en .
-:MO a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "MO" ;
-    skos:prefLabel "Missouri"@en .
-:MP a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "MP" ;
-    skos:prefLabel "Northern Mariana Islands"@en .
-:MS a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "MS" ;
-    skos:prefLabel "Mississippi"@en .
-:MT a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "MT" ;
-    skos:prefLabel "Montana"@en .
-:NC a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "NC" ;
-    skos:prefLabel "North Carolina"@en .
-:ND a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "ND" ;
-    skos:prefLabel "North Dakota"@en .
-:NE a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "NE" ;
-    skos:prefLabel "Nebraska"@en .
-:NH a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "NH" ;
-    skos:prefLabel "New Hampshire"@en .
-:NJ a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "NJ" ;
-    skos:prefLabel "New Jersey"@en .
-:NM a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "NM" ;
-    skos:prefLabel "New Mexico"@en .
-:NV a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "NV" ;
-    skos:prefLabel "Nevada"@en .
-:NY a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "NY" ;
-    skos:prefLabel "New York"@en .
-:OH a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "OH" ;
-    skos:prefLabel "Ohio"@en .
-:OK a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "OK" ;
-    skos:prefLabel "Oklahoma"@en .
-:OR a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "OR" ;
-    skos:prefLabel "Oregon"@en .
-:PA a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "PA" ;
-    skos:prefLabel "Pennsylvania"@en .
-:PR a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "PR" ;
-    skos:prefLabel "Puerto Rico"@en .
-:PW a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "PW" ;
-    skos:prefLabel "Palau"@en .
-:RI a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "RI" ;
-    skos:prefLabel "Rhode Island"@en .
-:SC a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "SC" ;
-    skos:prefLabel "South Carolina"@en .
-:SD a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "SD" ;
-    skos:prefLabel "South Dakota"@en .
-:TN a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "TN" ;
-    skos:prefLabel "Tennessee"@en .
-:TX a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "TX" ;
-    skos:prefLabel "Texas"@en .
-:UT a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "UT" ;
-    skos:prefLabel "Utah"@en .
-:VA a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "VA" ;
-    skos:prefLabel "Virginia"@en .
-:VI a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "VI" ;
-    skos:prefLabel "Virgin Islands"@en .
-:VT a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "VT" ;
-    skos:prefLabel "Vermont"@en .
-:WA a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "WA" ;
-    skos:prefLabel "Washington"@en .
-:WI a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "WI" ;
-    skos:prefLabel "Wisconsin"@en .
-:WV a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "WV" ;
-    skos:prefLabel "West Virginia"@en .
-:WY a skos:Concept ;
-    skos:inScheme  :scheme ;
-    skos:notation  "WY" ;
-    skos:prefLabel "Wyoming"@en .
-
-# The version IRI above is a Trusty URI, module RA. To check it: take the
-# triples of this file EXCLUDING the build-stamp block (:software, :plan,
-# :src_*, :dep*), write them as N-Triples, replace the artifact code in the
-# version IRI with a single space, sort the lines BY BYTE VALUE (LC_ALL=C for
-# GNU sort — locale collation gives a different order and a different
-# hash), join with newlines, add a
-# trailing newline, and SHA-256 it. Base64url of that digest, unpadded, is the
-# 43 characters that follow the module identifier. The full artifact code,
-# module and hash together, is:
-#
-#   RAHnOHKVmlm-_xg8ElJ7FDwy6ZFokGfefzT5dZaXHvA14
-#
-# The same triples are published as dist/usps-states.nt, which is that exact
-# serialisation with the code substituted back in. Hash THOSE BYTES.
-#
-# Do not re-derive them by loading this file into an RDF library and asking
-# it to write N-Triples. Some libraries normalise literals on the way out
-# and hand back a different graph: rdflib 7.6.0 rewrites an xsd:dateTime of
-# "...Z" as "...+00:00", which is the same instant, a different RDF literal,
-# and a different hash. Z is the canonical form per XML Schema Part 2, so
-# this file keeps it. That is the cost of hashing a serialisation, stated
-# out loud rather than discovered by whoever checks first.
-#
-# That .nt file is RDFC-1.0 canonical form — the W3C Recommendation of
-# 2024-05-21, formerly URDNA2015 — and not merely a recipe of our own. It
-# can be sorted rather than canonicalised only because this graph contains
-# no blank nodes, which is why the checksums above are named resources
-# instead. A test fails the build if one ever comes back.
+    pav:version    "v0.1.1-0.20260912202548-0f7fd4e66626+dirty" ;
+    dct:hasVersion <https://github.com/cbeauhilton/usps-states/tree/0f7fd4e6662677f2ccb91a48a4bfa2033d4132cc> ;
+    dct:source     <https://github.com/cbeauhilton/usps-states/tree/v0.1.0> .

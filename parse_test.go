@@ -3,10 +3,8 @@ package main
 import (
 	"bytes"
 	"crypto/sha256"
-	"encoding/base64"
 	"encoding/hex"
 	"os"
-	"sort"
 	"strings"
 	"testing"
 )
@@ -124,38 +122,20 @@ func TestGenerationIsDeterministic(t *testing.T) {
 	}
 }
 
-// The provenance must name the code that ran, not just the data it read.
-func TestBuildProvenanceNamesTheCode(t *testing.T) {
-	b := readBuild()
-	for _, want := range []string{"main.go", "generate.go", "build.go"} {
-		sum, ok := b.Sources[want]
-		if !ok {
-			t.Errorf("%s not embedded — the plan cannot be checksummed", want)
-			continue
-		}
-		if len(sum) != 64 {
-			t.Errorf("%s: %q is not a sha256 hex digest", want, sum)
+// The stamp must name the program that ran, and sit outside the content graph
+// so that verify can compare the content at any commit.
+func TestStampNamesTheProgram(t *testing.T) {
+	stamp := readBuild().stamp()
+	for _, want := range []string{"prov:SoftwareAgent", `dct:identifier "github.com/cbeauhilton/usps-states"`} {
+		if !strings.Contains(stamp, want) {
+			t.Errorf("stamp is missing %s", want)
 		}
 	}
-	ttl := b.provenanceTurtle()
-	for _, want := range []string{"prov:SoftwareAgent", "prov:hadPlan", "prov:Plan", "spdx:checksumValue"} {
-		if !strings.Contains(ttl, want) {
-			t.Errorf("provenance is missing %s", want)
-		}
-	}
-}
-
-// An unreproducible build must say so in the artefact rather than silently
-// omitting the commit.
-func TestUnstampedBuildWarnsInTheArtefact(t *testing.T) {
-	if w := (Build{}).Warning(); w == "" {
-		t.Fatal("an unstamped build reported no warning")
-	}
-	if w := (Build{Stamped: true, Dirty: true}).Warning(); w == "" {
-		t.Fatal("a dirty build reported no warning")
-	}
-	if w := (Build{Stamped: true}).Warning(); w != "" {
-		t.Fatalf("a clean stamped build warned anyway: %s", w)
+	cs := fixture(t)
+	src := Source{URL: SourceURL, SHA256: "abc", Bytes: 1, FetchedAt: "2026-01-01T00:00:00Z"}
+	ttl := string(turtle(cs, src, "2026-01-01"))
+	if !strings.HasSuffix(ttl, stamp) {
+		t.Error("the build stamp is not the last block of the Turtle")
 	}
 }
 
@@ -208,7 +188,8 @@ func TestDataTriplesIgnoresOnlyTheBuildStamp(t *testing.T) {
 	src := Source{URL: SourceURL, SHA256: "abc", Bytes: 1, FetchedAt: "2026-01-01T00:00:00Z"}
 	a := turtle(cs, src, "2026-01-01")
 
-	stamped := strings.Replace(string(a), "go1.26.4", "go9.9.9", 1)
+	stamped := strings.Replace(string(a), `dct:identifier "github.com/cbeauhilton/usps-states"`,
+		`dct:identifier "example.com/rebuilt/elsewhere"`, 1)
 	if dataTriples(a) != dataTriples([]byte(stamped)) {
 		t.Error("a changed build stamp altered the data comparison")
 	}
@@ -262,10 +243,9 @@ func TestTurtleCitesTheCanonicalExtract(t *testing.T) {
 	}
 }
 
-// Every predicate must be used in its own range and domain. These six were
-// wrong in the first published artefact: a literal where a resource belongs, an
-// IRI where a literal belongs, a build warning filed as an access restriction,
-// and a commit sha hung on an Agent by a property defined for Entities. A
+// Every predicate must be used in its own range and domain. These were wrong
+// in the first published artefact: a literal where a resource belongs, an IRI
+// where a literal belongs, a build warning filed as an access restriction. A
 // consumer that reasons over them would draw false conclusions, quietly.
 func TestNoOffSpecPredicates(t *testing.T) {
 	cs := fixture(t)
@@ -273,11 +253,10 @@ func TestNoOffSpecPredicates(t *testing.T) {
 	ttl := string(turtle(cs, src, "2026-01-01"))
 
 	banned := map[string]string{
-		`dct:hasVersion "`:   "dcterms:hasVersion takes a resource, not a literal",
-		"dct:accessRights":   "accessRights is about who may read it, not whether it rebuilds",
-		"dct:extent":         "a byte count belongs in dcat:byteSize, typed",
-		`dct:identifier <`:   "dcterms:identifier takes a literal",
-		"prov:value     \"a": "a revision identifies the plan, not the agent",
+		`dct:hasVersion "`: "dcterms:hasVersion takes a resource, not a literal",
+		"dct:accessRights": "accessRights is about who may read it, not whether it rebuilds",
+		"dct:extent":       "a byte count belongs in dcat:byteSize, typed",
+		`dct:identifier <`: "dcterms:identifier takes a literal",
 	}
 	for bad, why := range banned {
 		if strings.Contains(ttl, bad) {
@@ -293,137 +272,7 @@ func TestNoOffSpecPredicates(t *testing.T) {
 		}
 	}
 	if strings.Contains(ttl, "spdx:checksum [") {
-		t.Error("checksums are still blank nodes; they cannot be cited or sorted")
-	}
-}
-
-// Two builds of the SAME commit must produce the same identifier. This build is
-// not reproducible — the binary digest and build time move every time — and if
-// that noise reached the identifier it would churn on every rebuild while
-// nothing published had changed.
-func TestVersionIdentifierIgnoresTheBuildStamp(t *testing.T) {
-	cs := fixture(t)
-	src := Source{URL: SourceURL, SHA256: "abc", Bytes: 1, FetchedAt: "2026-01-01T00:00:00Z"}
-	rev := "4d537f1fef644ba60905165b0f0593043a9a2396"
-	a, _ := dataGraph(cs, src, "2026-01-01", Build{
-		Stamped: true, Revision: rev, GoVersion: "go1.26.4",
-		Binary: "aaaa", Committed: "2026-01-01T00:00:00Z"})
-	b, _ := dataGraph(cs, src, "2026-01-01", Build{
-		Stamped: true, Revision: rev, GoVersion: "go9.9.9",
-		Binary: "bbbb", Committed: "2027-02-02T00:00:00Z"})
-	if trustyCode(a.trs) != trustyCode(b.trs) {
-		t.Error("the version identifier moved because the toolchain did")
-	}
-}
-
-// ...and it must move when the content does, or it is decorative.
-func TestVersionIdentifierTracksTheContent(t *testing.T) {
-	cs := fixture(t)
-	src := Source{URL: SourceURL, SHA256: "abc", Bytes: 1, FetchedAt: "2026-01-01T00:00:00Z"}
-	base, _ := dataGraph(cs, src, "2026-01-01", Build{})
-	for _, mut := range []struct {
-		name string
-		fn   func() *graph
-	}{
-		{"a display changed", func() *graph {
-			c := append([]Concept(nil), cs...)
-			c[0].Display = "Somewhere Else"
-			g, _ := dataGraph(c, src, "2026-01-01", Build{})
-			return g
-		}},
-		{"a code dropped", func() *graph {
-			g, _ := dataGraph(cs[1:], src, "2026-01-01", Build{})
-			return g
-		}},
-		{"the source digest changed", func() *graph {
-			s2 := src
-			s2.SHA256 = "def"
-			g, _ := dataGraph(cs, s2, "2026-01-01", Build{})
-			return g
-		}},
-	} {
-		if trustyCode(base.trs) == trustyCode(mut.fn().trs) {
-			t.Errorf("%s did not change the version identifier", mut.name)
-		}
-	}
-}
-
-// A third party must be able to recompute the identifier from what we publish,
-// without reimplementing our generator. This test IS that third party: it reads
-// dist/usps-states.nt, does the documented steps by hand, and compares.
-func TestVersionIdentifierRecomputesFromThePublishedQuads(t *testing.T) {
-	cs := fixture(t)
-	src := Source{URL: SourceURL, SHA256: "abc", Bytes: 1, FetchedAt: "2026-01-01T00:00:00Z"}
-	ttl := string(turtle(cs, src, "2026-01-01"))
-	nt := string(ntDoc(cs, src, "2026-01-01"))
-
-	i := strings.Index(ttl, VersionBase)
-	if i < 0 {
-		t.Fatal("no version IRI in the artefact")
-	}
-	code := ttl[i+len(VersionBase):]
-	code = code[:strings.IndexByte(code, '>')]
-	if len(code) != 45 || !strings.HasPrefix(code, "RA") {
-		t.Fatalf("artifact code %q is not 45 characters of module RA", code)
-	}
-
-	// The documented steps, done independently of trustyCode.
-	back := strings.ReplaceAll(nt, "<"+VersionBase+code+">", "<"+VersionBase+" >")
-	lines := strings.Split(strings.TrimSuffix(back, "\n"), "\n")
-	sort.Strings(lines)
-	sum := sha256.Sum256([]byte(strings.Join(lines, "\n") + "\n"))
-	if want := "RA" + base64.RawURLEncoding.EncodeToString(sum[:]); want != code {
-		t.Errorf("recomputed %s, artefact says %s", want, code)
-	}
-}
-
-// The published links must carry both halves: the ref to read, and the revision
-// that ref actually resolved to. A dirty build has no honest permalink and must
-// publish none rather than one that points at code which never ran.
-func TestPermalinkOnlyWhenItIsTrue(t *testing.T) {
-	clean := Build{Stamped: true, Revision: "abc123"}
-	if clean.PermalinkURL("main.go") == "" {
-		t.Error("a clean stamped build published no permalink")
-	}
-	for _, b := range []Build{
-		{Stamped: true, Dirty: true, Revision: "abc123"},
-		{Stamped: false, Revision: "abc123"},
-		{Stamped: true},
-	} {
-		if u := b.PermalinkURL("main.go"); u != "" {
-			t.Errorf("build %+v published permalink %s it cannot stand behind", b, u)
-		}
-	}
-}
-
-// Timestamps must stay in the XML Schema canonical form. "Z" and "+00:00" are
-// the same instant but different RDF literals, so a change here silently moves
-// the content identifier — and some RDF libraries will rewrite one into the
-// other if you let them serialise the graph for you.
-func TestTimestampsAreCanonical(t *testing.T) {
-	cs := fixture(t)
-	src := Source{URL: SourceURL, SHA256: "abc", Bytes: 1, FetchedAt: "2026-01-01T00:00:00Z"}
-	nt := string(ntDoc(cs, src, "2026-01-01"))
-	if strings.Contains(nt, "+00:00") {
-		t.Error("a timestamp is in the non-canonical +00:00 form")
-	}
-	if !strings.Contains(nt, `"2026-01-01T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>`) {
-		t.Error("the canonical Z form is not being emitted")
-	}
-}
-
-// The version identifier is computed by sorting N-Triples, which is RDFC-1.0
-// canonical form ONLY because this graph has no blank nodes: canonicalisation
-// is what assigns them stable labels, and sorting cannot do it. Skolemising the
-// checksums removed the last one. If a blank node ever comes back, the shortcut
-// silently stops being canonical and the published identifier stops meaning
-// what the artefact says it means — so fail here instead.
-func TestDataGraphHasNoBlankNodes(t *testing.T) {
-	cs := fixture(t)
-	src := Source{URL: SourceURL, SHA256: "abc", Bytes: 1, FetchedAt: "2026-01-01T00:00:00Z"}
-	nt := string(ntDoc(cs, src, "2026-01-01"))
-	if strings.Contains(nt, "_:") {
-		t.Error("a blank node reached the data graph; sorted N-Triples is no longer canonical")
+		t.Error("checksums are blank nodes again; they cannot be cited")
 	}
 }
 

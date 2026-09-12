@@ -6,7 +6,6 @@ authority and published as data — with the derivation attached.
 ```
 dist/CodeSystem-usps-states.json   FHIR CodeSystem, content: complete
 dist/usps-states.ttl               SKOS + PROV-O + PAV, the full derivation chain
-dist/usps-states.nt                the same graph, RDFC-1.0 canonical form
 dist/usps-states.ndjson            one concept per line
 data/usps-states.csv               the source of truth, reviewable in a diff
 dist/SHA256SUMS
@@ -102,10 +101,10 @@ cannot be re-derived is the thing this repository exists to avoid. CI runs it
 weekly.
 
 The reproducibility check is about the **data**, not the build. `usps-states.ttl`
-embeds the commit and source digests of the binary that wrote it, and that
-legitimately differs between builds — so the check compares the Turtle with its
-provenance block removed, and reports a changed stamp instead of failing on it.
-A hand-edited artefact still fails, loudly.
+ends with a stamp naming the binary that wrote it — module, version, commit,
+ref — and that legitimately differs between builds. So the check compares the
+Turtle with the stamp removed and reports a changed stamp instead of failing on
+it. A hand-edited artefact still fails, loudly.
 
 ### When the page changes but the codes do not
 
@@ -195,118 +194,35 @@ typo included. A silent correction is a difference nobody can audit later.
 
 ### Which code produced this file
 
-`dist/usps-states.ttl` records the program as well as the data. The build stamps
-in the git commit, the commit time, whether the tree was dirty, the Go version,
-and a sha256 for every source file — taken from the copy **embedded in the
-binary at compile time**, so the digests describe the code that actually ran
-rather than whatever is on disk now. Dependencies are listed with the `go.sum`
-hashes the build verified.
-
-```sparql
-PREFIX prov: <http://www.w3.org/ns/prov#>
-PREFIX pav:  <http://purl.org/pav/>
-PREFIX dct:  <http://purl.org/dc/terms/>
-SELECT ?module ?version ?revision WHERE {
-  ?activity prov:qualifiedAssociation [ prov:agent ?agent ; prov:hadPlan ?plan ] .
-  ?agent dct:identifier ?module ; pav:version ?version .
-  ?plan  pav:version ?revision .
-}
-```
-
-The revision hangs off the **plan**, not the agent: `prov:value` is defined as
-the value of an *entity*, and an Agent is not one. A commit identifies the
-source that ran, which is the plan.
-
-Two honest caveats are written into the file rather than left to inference. A
-binary built with `go run`, or from a tree with uncommitted changes, carries
-**`NOT REPRODUCIBLE`** as an `rdfs:comment` and as a comment at the top — a
-recorded commit that does not describe the code that ran is worse than no commit
-at all. Such a build also publishes **no permalinks at all**, because a
-revision-pinned link into a commit built from a modified tree is a lie with a
-checksum attached.
-
-And the commit recorded is the one the code was *built* from, which is the
-parent of the commit containing the artefact. That is the right thing to record:
-it identifies the code that ran, not the commit that stored the result.
-
-Every published link comes in two halves, kept apart on purpose:
+`dist/usps-states.ttl` ends with a build stamp: the module path, the version Go
+stamped into the binary, the commit it was built at, and the ref the published
+links resolve against. The same four fields are in `evidence/build.json`.
 
 ```turtle
-:src_build_go dct:source     <…/blob/v0.1.0/build.go> ;   # where to READ it
-              dct:hasVersion <…/blob/b84a2d9…/build.go> ; # what was RESOLVED
-              spdx:checksum  :ck_src_build_go .
+:software a prov:SoftwareAgent ;
+    dct:identifier "github.com/cbeauhilton/usps-states" ;
+    pav:version    "v0.1.0" ;
+    dct:hasVersion <…/tree/31bd0ff…> ;   # the commit the code was BUILT at
+    dct:source     <…/tree/v0.1.0> .     # the ref the links resolve against
 ```
 
-A digest paired only with a moving ref cannot be checked once the ref moves: you
-have a hash and no way to find the bytes it describes. SLSA keeps the same two
-facts apart for the same reason — `externalParameters.ref` against
-`resolvedDependencies[].digest` — and collapsing them is what makes provenance
-decorative.
+The commit recorded is the one the code was *built* from, which is the parent
+of the commit containing the artefact: a file cannot hold the hash of the
+commit holding it. A ref name can, because it is chosen before committing and
+created after, so the links use the ref. Everything above the stamp reproduces
+from `data/usps-states.csv` at any commit, and `verify` checks that it does.
 
 ### Version
 
-There are **two** version identifiers, because there are two questions.
-
 `pav:version` is the edition of the abbreviations. USPS publishes no version and
-no changelog, so this repository mints one: the date the content was last
-derived, recorded beside the source's sha256. That is the honest handling for a
-source with no release identity — the derivation date is the only thing that
-moves when the content does.
+no changelog, so this repository mints one: the date the content last changed,
+recorded beside the source's sha256 in `evidence/source.json`. Re-running
+`extract` against an unchanged page holds the version and updates only the
+fetch date, because "last verified" and "last changed" are different facts.
 
-`dct:hasVersion` is a hash of this exact graph, and it is a
-[Trusty URI](https://arxiv.org/abs/1401.5775), module RA:
-
-```
-https://github.com/cbeauhilton/usps-states/version/RA…
-```
-
-An artefact naming its own hash sounds circular, and the trick is that it is
-not: write the identifier with a placeholder, hash the content reading that
-placeholder as a single blank space — unambiguous, because a URI cannot
-otherwise contain one — then substitute the computed code in. Verification
-reverses the substitution and recomputes.
-
-The bytes it is computed over ship as `dist/usps-states.nt`, so nobody has to
-reimplement this program to check the identifier:
-
-```sh
-# what the file claims
-grep -o 'version/RA[A-Za-z0-9_-]*' dist/usps-states.ttl
-
-# recompute it from the published triples
-CODE=$(grep -o 'RA[A-Za-z0-9_-]\{43\}' dist/usps-states.ttl | head -1)
-sed "s|<https://github.com/cbeauhilton/usps-states/version/$CODE>|<https://github.com/cbeauhilton/usps-states/version/ >|" \
-  dist/usps-states.nt | LC_ALL=C sort | sha256sum | cut -d' ' -f1 |
-  xxd -r -p | base64 | tr '+/' '-_' | tr -d '=\n' | sed 's/^/RA/'
-```
-
-`LC_ALL=C` is load-bearing, not decoration. "Sort the lines" is ambiguous:
-under `en_US.UTF-8` GNU `sort` collates by locale rules and returns a different
-order, and therefore a different hash. RDFC-1.0 canonical form sorts by Unicode
-code point, which for UTF-8 is byte order, which is what `LC_ALL=C` gives you.
-
-That file is **RDFC-1.0 canonical form** — the W3C Recommendation of 2024-05-21,
-formerly URDNA2015 — not a recipe invented here. It can be produced by sorting
-rather than by running a canonicalisation algorithm only because this graph
-contains no blank nodes, which is why the checksums are named resources rather
-than the `[ … ]` that DCAT's own examples use. A test fails the build if a blank
-node ever returns, and CI re-checks the canonical form against an independent
-implementation on every push.
-
-One caveat, found by measuring rather than by reasoning. Hash the **published
-bytes**; do not re-derive them by loading the Turtle into an RDF library and
-asking it to write N-Triples. Some libraries normalise literals on the way out:
-rdflib 7.6.0 rewrites an `xsd:dateTime` of `"…Z"` as `"…+00:00"`, which is the
-same instant, a different RDF literal, and a different hash. `Z` is the
-canonical form per XML Schema Part 2, so this file keeps it. Canonicalisation
-does not rescue you here either — RDFC-1.0 assigns stable labels to blank nodes,
-it does not normalise literals, and by then the original term is already gone.
-
-What the identifier covers: everything that identifies **what was published**,
-including the revision-pinned links. What it excludes: anything that merely
-varies between two builds of the same commit — the binary digest, the compiler
-version, the build time. Rebuilding this tool must not mint a new edition of the
-abbreviations.
+`dist/SHA256SUMS` identifies the bytes. Two copies of an artefact with the same
+sum are the same file; two with different sums are not, and `verify` says
+whether the difference is in the data or only in the build stamp.
 
 For what it is worth, it has not moved — and that is measured here, not
 borrowed. `go run . history` samples the Internet Archive one capture per year,
