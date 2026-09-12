@@ -42,6 +42,9 @@ by hand. This does the first one, once, in the open, and shows its working.
 
 ## Use it
 
+The repository is private until its owner makes it public, so these downloads
+return 404 until then.
+
 ```sh
 # a release, pinned — this file will not change under you
 curl -O https://raw.githubusercontent.com/cbeauhilton/usps-states/v0.1.0/dist/CodeSystem-usps-states.json
@@ -62,7 +65,7 @@ GET /CodeSystem/$lookup?code=MA                     "Massachusetts"
 GET /ValueSet/$validate-code?...&code=MA            result: true
 ```
 
-and the resource itself passes the HL7 FHIR validator (`validator_cli` 6.10.3,
+and the resource itself passes the HL7 FHIR validator (`validator_cli` 6.10.4,
 R4) with no errors and no warnings.
 
 If you want the provenance to travel with the data, take the Turtle. It says
