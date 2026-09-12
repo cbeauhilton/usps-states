@@ -151,28 +151,21 @@ committed CSV, and re-run `verify` to confirm the live page still yields it.
 If the codes themselves change, `verify` fails with a `+`/`-`/`~` diff and a
 human decides what it means. That is the case worth stopping for.
 
-### Not hitting the publisher forty times an hour
+### Offline
 
-`extract` and `verify` cache the fetched page under `.cache/` (gitignored).
+`extract` and `verify` ask the authority by default. `-offline` reads the
+committed `evidence/28apb.htm` instead and never touches the network:
 
 ```sh
-go run . verify              # cache if younger than an hour, else live
-go run . verify -refresh     # always ask the authority
-go run . verify -offline     # cached copy at any age; never touch the network
-go run . verify -ttl 24h
+go run . verify -offline
 ```
 
-Every run prints which it used — `LIVE` or `CACHED (12m30s old)`. A tool that
-silently answers from a cache is how "we checked the authority" becomes a claim
+Every run prints which it used — `LIVE` or `OFFLINE`. A tool that silently
+answers from a local copy is how "we checked the authority" becomes a claim
 nobody can trust, which is the exact failure this repository was built around.
-For the same reason a network failure never falls back to a stale copy on its
-own; it tells you the copy exists and makes you ask for it.
 
-A cached body whose digest no longer matches what was recorded with it is
-treated as corruption and refetched, not served.
-
-The tests need none of this: they parse the committed `evidence/28apb.htm`, so
-they pass with the network unplugged.
+The tests need no flag: they parse the same `evidence/28apb.htm`, so they pass
+with the network unplugged.
 
 ### Three traps, all of them real
 
@@ -224,26 +217,16 @@ fetch date, because "last verified" and "last changed" are different facts.
 sum are the same file; two with different sums are not, and `verify` says
 whether the difference is in the data or only in the build stamp.
 
-For what it is worth, it has not moved — and that is measured here, not
-borrowed. `go run . history` samples the Internet Archive one capture per year,
-extracts the codes from each, and diffs them:
-
-```
-90 captures, sampling one per year across 14 years
-  2012-09-22  62 codes  baseline
-  2013-10-14  62 codes  identical
-  ...
-  2026-01-10  62 codes  identical
-
-14 usable snapshots, 2012-09-22 to 2026-01-10, 0 changes to the code set
-```
-
-The full result is in `evidence/history.json`. Two traps are handled, because
-both produce a confident wrong answer: the CDX digest is useless here, so the
-comparison is on extracted **concepts** rather than bytes; and the Archive
-returns its own "Temporarily Offline" page with a 200, which parses as zero
-codes and would read as a real absence — such a snapshot is recorded as unusable
-rather than as evidence of change.
+For what it is worth, it has not moved. `evidence/history.json` records one
+measurement, taken on 2026-09-04: of the 90 captures of the page the Internet
+Archive held, one per calendar year was fetched — 14 samples, 2012-09-22 to
+2026-01-10 — and the codes extracted from each. 62 codes every time, 0 changes
+to the code set. The comparison was on extracted **concepts**, not on bytes:
+the page's bytes differ in nearly every capture while the codes do not, and the
+Archive's own "Temporarily Offline" page returns a 200 that would parse as an
+absence, so a sample with no codes would have been recorded as unusable rather
+than as a change. None was. The code that took the measurement is not kept; the
+file is the fact.
 
 ## Licensing
 

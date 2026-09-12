@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"crypto/sha256"
-	"encoding/hex"
 	"os"
 	"strings"
 	"testing"
@@ -139,45 +138,19 @@ func TestStampNamesTheProgram(t *testing.T) {
 	}
 }
 
-// The cache must never let a stale answer pass as a live one, and must refuse
-// a corrupt entry rather than serve it.
-func TestCacheRejectsACorruptedEntry(t *testing.T) {
-	dir := t.TempDir()
-	wd, _ := os.Getwd()
-	defer os.Chdir(wd)
-	os.Chdir(dir)
-
-	body := []byte("<html>original</html>")
-	sum := sha256.Sum256(body)
-	src := Source{URL: SourceURL, SHA256: hex.EncodeToString(sum[:]), Bytes: len(body)}
-	if err := writeCache(SourceURL, body, src); err != nil {
+// -offline must read the committed page and say so; it is the fixture the
+// tests use and the only copy a verify without network can consult.
+func TestOfflineReadsTheEvidenceFile(t *testing.T) {
+	body, src, err := source(true)
+	if err != nil {
 		t.Fatal(err)
 	}
-	if _, _, _, ok := readCache(SourceURL); !ok {
-		t.Fatal("a freshly written entry did not read back")
-	}
-	bp, _ := cachePaths(SourceURL)
-	if err := os.WriteFile(bp, []byte("<html>tampered</html>"), 0o644); err != nil {
+	cs, err := parse(body)
+	if err != nil {
 		t.Fatal(err)
 	}
-	if _, _, _, ok := readCache(SourceURL); ok {
-		t.Fatal("a body that no longer matches its recorded digest was served from cache")
-	}
-}
-
-func TestOfflineWithoutACacheFails(t *testing.T) {
-	dir := t.TempDir()
-	wd, _ := os.Getwd()
-	defer os.Chdir(wd)
-	os.Chdir(dir)
-	if _, _, err := fetchCached(FetchOpts{Offline: true}); err == nil {
-		t.Fatal("-offline with an empty cache should fail, not reach the network")
-	}
-}
-
-func TestOfflineAndRefreshAreRefused(t *testing.T) {
-	if _, _, err := fetchCached(FetchOpts{Offline: true, Refresh: true}); err == nil {
-		t.Fatal("contradictory flags were accepted")
+	if len(cs) != 62 || src.Bytes != len(body) {
+		t.Fatalf("offline read gave %d concepts, %d of %d bytes", len(cs), src.Bytes, len(body))
 	}
 }
 
@@ -200,8 +173,8 @@ func TestDataTriplesIgnoresOnlyTheBuildStamp(t *testing.T) {
 }
 
 // Cosmetic churn: the page's bytes move constantly while the code set does not.
-// The Internet Archive holds 118 distinct digests across fourteen years and the
-// 62 never changed. That must not fail, and must not pass silently either.
+// evidence/history.json has 14 yearly samples from 90 Internet Archive captures
+// and the 62 never changed. That must not fail, and must not pass silently.
 func TestCosmeticChurnIsDetectedNotFatal(t *testing.T) {
 	orig, err := os.ReadFile("evidence/28apb.htm")
 	if err != nil {

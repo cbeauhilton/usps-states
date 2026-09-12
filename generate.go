@@ -289,7 +289,17 @@ func fileSize(path string) int {
 	return int(fi.Size())
 }
 
-// readHistory loads the measured archive history, when it has been run.
+// History is the part of evidence/history.json the artefact cites: one
+// measurement of the code set against Internet Archive captures, taken once.
+type History struct {
+	MeasuredAt string `json:"measured_at"`
+	Captures   int    `json:"archive_captures_total"`
+	Usable     int    `json:"snapshots_usable"`
+	Changes    int    `json:"code_set_changes"`
+	Span       string `json:"span"`
+}
+
+// readHistory loads that measurement, when the file is present.
 func readHistory() (History, bool) {
 	var h History
 	b, err := os.ReadFile(filepath.Join("evidence", "history.json"))

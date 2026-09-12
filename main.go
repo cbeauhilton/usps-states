@@ -14,11 +14,9 @@
 //	usps-states extract    fetch the authority, parse it, write data/ + evidence/
 //	usps-states generate   build dist/ from data/usps-states.csv
 //	usps-states verify     re-derive and fail if anything moved
-//	usps-states history    measure the code set against the Internet Archive
 //
-// extract and verify take -refresh (always ask the authority) and -offline (use
-// the local cache at any age, never touch the network). Both always print which
-// they used; see cache.go.
+// extract and verify ask the authority unless given -offline, which reads the
+// committed evidence/28apb.htm instead. Both always print which they used.
 //
 // The artefact you probably want is dist/CodeSystem-usps-states.json — a FHIR
 // CodeSystem with content: complete, loadable straight into a terminology
@@ -103,14 +101,12 @@ var publishRef = "main"
 
 func main() {
 	if len(os.Args) < 2 {
-		fmt.Fprintln(os.Stderr, "usage: usps-states extract|generate|verify|history [-refresh] [-offline]")
+		fmt.Fprintln(os.Stderr, "usage: usps-states extract|generate|verify [-offline] [-ref REF]")
 		os.Exit(2)
 	}
 	fs := flag.NewFlagSet(os.Args[1], flag.ExitOnError)
-	var o FetchOpts
-	fs.BoolVar(&o.Refresh, "refresh", false, "always ask the authority, ignoring the cache")
-	fs.BoolVar(&o.Offline, "offline", false, "use the cached copy at any age; never touch the network")
-	fs.DurationVar(&o.TTL, "ttl", DefaultTTL, "how long a cached copy stays fresh")
+	var offline bool
+	fs.BoolVar(&offline, "offline", false, "read evidence/28apb.htm instead of asking the authority")
 	fs.StringVar(&publishRef, "ref", publishRef, "git ref published links resolve against (a tag, for a release)")
 	_ = fs.Parse(os.Args[2:])
 
@@ -131,15 +127,13 @@ func main() {
 	var err error
 	switch os.Args[1] {
 	case "extract":
-		err = extract(o)
+		err = extract(offline)
 	case "generate":
 		if err = generate("dist"); err == nil {
 			err = writeBuild()
 		}
 	case "verify":
-		err = verify(o)
-	case "history":
-		err = history()
+		err = verify(offline)
 	default:
 		err = fmt.Errorf("unknown command %q", os.Args[1])
 	}
@@ -175,6 +169,35 @@ func fetch() ([]byte, Source, error) {
 		FetchedAt: time.Now().UTC().Format(time.RFC3339), UserAgent: UserAgent,
 		StatusCode: resp.StatusCode,
 	}, nil
+}
+
+// source is the page to parse and its provenance: fetched from the authority
+// by default, or the committed evidence/28apb.htm with -offline.
+//
+// It always says which. A tool that silently answers from a local copy is how
+// "we checked the authority" becomes a claim nobody can trust — the whole
+// reason this repository exists is that three surveys reported a page as gone
+// without opening it.
+func source(offline bool) ([]byte, Source, error) {
+	if !offline {
+		body, src, err := fetch()
+		if err == nil {
+			fmt.Printf("  LIVE %s\n", SourceURL)
+		}
+		return body, src, err
+	}
+	body, err := os.ReadFile("evidence/28apb.htm")
+	if err != nil {
+		return nil, Source{}, err
+	}
+	src, err := recordedSource()
+	if err != nil {
+		return nil, Source{}, err
+	}
+	sum := sha256.Sum256(body)
+	src.SHA256, src.Bytes = hex.EncodeToString(sum[:]), len(body)
+	fmt.Println("  OFFLINE evidence/28apb.htm — the authority was not consulted")
+	return body, src, nil
 }
 
 // parse walks the document and returns the concepts from the wanted tables.
@@ -230,8 +253,8 @@ func parse(body []byte) ([]Concept, error) {
 	return out, nil
 }
 
-func extract(o FetchOpts) error {
-	body, src, err := fetchCached(o)
+func extract(offline bool) error {
+	body, src, err := source(offline)
 	if err != nil {
 		return err
 	}
@@ -300,12 +323,12 @@ func recordedSource() (Source, error) {
 	return rec, json.Unmarshal(b, &rec)
 }
 
-func verify(o FetchOpts) error {
+func verify(offline bool) error {
 	held, err := readCSV("data/usps-states.csv")
 	if err != nil {
 		return err
 	}
-	body, src, err := fetchCached(o)
+	body, src, err := source(offline)
 	if err != nil {
 		return err
 	}
@@ -317,8 +340,12 @@ func verify(o FetchOpts) error {
 		return fmt.Errorf("the authority no longer matches data/usps-states.csv:\n%s\n"+
 			"run `usps-states extract && usps-states generate` and review the diff", d)
 	}
-	fmt.Printf("verified: %d concepts, identical to the authority\n  source sha256 %s\n",
-		len(live), src.SHA256)
+	against := "the authority"
+	if offline {
+		against = "evidence/28apb.htm (NOT the authority)"
+	}
+	fmt.Printf("verified: %d concepts, identical to %s\n  source sha256 %s\n",
+		len(live), against, src.SHA256)
 
 	// The codes match. Did the page? These are different questions and only the
 	// first one matters for correctness — but if the bytes moved, the digest we
@@ -326,8 +353,8 @@ func verify(o FetchOpts) error {
 	// and that has to be said rather than left to rot.
 	//
 	// Expect this often. The page carries navigation, banners and analytics that
-	// change constantly: the Internet Archive holds 118 distinct digests of it
-	// across fourteen years, over which the code set never moved once.
+	// change constantly: evidence/history.json records 14 yearly samples from 90
+	// Internet Archive captures, and the code set never moved once.
 	if rec, err := recordedSource(); err == nil && rec.SHA256 != src.SHA256 {
 		fmt.Printf("\n  NOTE: the page changed but the codes did not.\n"+
 			"    recorded %s (%d bytes)\n    live     %s (%d bytes)\n"+

@@ -26,6 +26,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with: { go-version: stable }
-      # -refresh so a cached copy can never stand in for the authority in CI.
-      - run: go run . verify -refresh
+      # Live by default. -offline is for a machine without network, never CI.
+      - run: go run . verify
 
