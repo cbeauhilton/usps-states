@@ -19,7 +19,7 @@
     dct:identifier "https://www.usps.com/" ;
     # This release, named by a hash of its own content. See the note at the
     # foot of this file for how to recompute it.
-    dct:hasVersion <https://github.com/cbeauhilton/usps-states/version/RAb2jvyxCysQwfARFNFpK-uA4AAhN2cvAV3pH4K1I_3FU> ;
+    dct:hasVersion <https://github.com/cbeauhilton/usps-states/version/RAHnOHKVmlm-_xg8ElJ7FDwy6ZFokGfefzT5dZaXHvA14> ;
     pav:version "2026-09-04" ;
     dct:issued "2026-09-04"^^xsd:date ;
     dct:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
@@ -52,7 +52,6 @@
 :data a prov:Entity, dcat:Distribution ;
     dct:title "data/usps-states.csv" ;
     dct:source <https://github.com/cbeauhilton/usps-states/blob/v0.1.0/data/usps-states.csv> ;
-    dct:hasVersion <https://github.com/cbeauhilton/usps-states/blob/31bd0ffdfccbbd4871e9e67e54369207e3078326/data/usps-states.csv> ;
     dcat:mediaType <https://www.iana.org/assignments/media-types/text/csv> ;
     dcat:byteSize "927"^^xsd:nonNegativeInteger ;
     pav:importedFrom :source ;
@@ -85,7 +84,6 @@
     dct:title "evidence/history.json" ;
     dct:description "90 Internet Archive captures of the authority spanning 2012-09-22 to 2026-01-10. 14 snapshots were usable; across them the code set changed 0 times." ;
     dct:source <https://github.com/cbeauhilton/usps-states/blob/v0.1.0/evidence/history.json> ;
-    dct:hasVersion <https://github.com/cbeauhilton/usps-states/blob/31bd0ffdfccbbd4871e9e67e54369207e3078326/evidence/history.json> ;
     dcat:mediaType <https://www.iana.org/assignments/media-types/application/json> ;
     prov:wasDerivedFrom <https://web.archive.org/> ;
     prov:generatedAtTime "2026-09-04T01:16:23Z"^^xsd:dateTime ;
@@ -103,42 +101,39 @@
 :software a prov:SoftwareAgent ;
     dct:title      "usps-states" ;
     dct:identifier "github.com/cbeauhilton/usps-states" ;
-    pav:version    "v0.0.0-20260904110842-31bd0ffdfccb" ;
+    pav:version    "v0.1.0+dirty" ;
     dct:source     <https://github.com/cbeauhilton/usps-states/tree/v0.1.0> ;
-    dct:hasVersion <https://github.com/cbeauhilton/usps-states/tree/31bd0ffdfccbbd4871e9e67e54369207e3078326> ;
     # sha256 of the executable that ran. Reproducible by a third party
     # only when built -trimpath -buildvcs=false; false here.
     spdx:checksum  :ck_binary ;
     dct:created    "2026-09-04T11:08:42Z"^^xsd:dateTime ;
+    rdfs:comment   "NOT REPRODUCIBLE: built from a working tree with uncommitted changes, so the recorded commit does not describe the code that ran." ;
     dct:requires   "go1.26.4 linux/amd64" .
 
 :ck_binary a spdx:Checksum ;
     spdx:algorithm    spdx:checksumAlgorithm_sha256 ;
-    spdx:checksumValue "d1e21095facacd7c94c2ef6a4eaacdbfaa6db904f5e39cc9a28d8ab1419d0a37" .
+    spdx:checksumValue "b451056169eb77322ff0a190fecda69ef35b92239caa1fb76ec3f6d70d337fab" .
 
 # The plan is the source that ran. Each file is checksummed from the copy
 # embedded in the binary at compile time, so these describe the compiled
 # code and not whatever is on disk now.
 :plan a prov:Plan, prov:Entity ;
     dct:source <https://github.com/cbeauhilton/usps-states/tree/v0.1.0> ;
-    dct:hasVersion <https://github.com/cbeauhilton/usps-states/tree/31bd0ffdfccbbd4871e9e67e54369207e3078326> ;
     # the revision resolved when this ran — the commit the code was BUILT
     # from, which is the parent of the commit containing this file
-    pav:version "31bd0ffdfccbbd4871e9e67e54369207e3078326" ;
+    pav:version "f2d307fff8faa63bc7fef61773caa8a7b7a08f9e" ;
     dct:hasPart :src_build_go, :src_cache_go, :src_generate_go, :src_history_go, :src_main_go, :src_parse_test_go, :src_rdf_go .
 
 :src_build_go a prov:Entity ;
     dct:title "build.go" ;
     dct:source <https://github.com/cbeauhilton/usps-states/blob/v0.1.0/build.go> ;
-    dct:hasVersion <https://github.com/cbeauhilton/usps-states/blob/31bd0ffdfccbbd4871e9e67e54369207e3078326/build.go> ;
     spdx:checksum :ck_src_build_go .
 :ck_src_build_go a spdx:Checksum ;
     spdx:algorithm    spdx:checksumAlgorithm_sha256 ;
-    spdx:checksumValue "b63ab874391f42918c0d8a5f756fef2f6c7f2bd7fbb859c2f8bdbf3ab4ea31b7" .
+    spdx:checksumValue "bd806452b4af574f33e773a6b9fefa0bcd85b0f0cdcb54828552b7973f195842" .
 :src_cache_go a prov:Entity ;
     dct:title "cache.go" ;
     dct:source <https://github.com/cbeauhilton/usps-states/blob/v0.1.0/cache.go> ;
-    dct:hasVersion <https://github.com/cbeauhilton/usps-states/blob/31bd0ffdfccbbd4871e9e67e54369207e3078326/cache.go> ;
     spdx:checksum :ck_src_cache_go .
 :ck_src_cache_go a spdx:Checksum ;
     spdx:algorithm    spdx:checksumAlgorithm_sha256 ;
@@ -146,15 +141,13 @@
 :src_generate_go a prov:Entity ;
     dct:title "generate.go" ;
     dct:source <https://github.com/cbeauhilton/usps-states/blob/v0.1.0/generate.go> ;
-    dct:hasVersion <https://github.com/cbeauhilton/usps-states/blob/31bd0ffdfccbbd4871e9e67e54369207e3078326/generate.go> ;
     spdx:checksum :ck_src_generate_go .
 :ck_src_generate_go a spdx:Checksum ;
     spdx:algorithm    spdx:checksumAlgorithm_sha256 ;
-    spdx:checksumValue "bbd3df9e0d4486d56f1e4e3a84daea6ac9290b09c4c786579f27aeee3121ca55" .
+    spdx:checksumValue "647479d4e5d895c5595d8deb4c20c7817051562dccfb4fd8c6fd6d0f3203a969" .
 :src_history_go a prov:Entity ;
     dct:title "history.go" ;
     dct:source <https://github.com/cbeauhilton/usps-states/blob/v0.1.0/history.go> ;
-    dct:hasVersion <https://github.com/cbeauhilton/usps-states/blob/31bd0ffdfccbbd4871e9e67e54369207e3078326/history.go> ;
     spdx:checksum :ck_src_history_go .
 :ck_src_history_go a spdx:Checksum ;
     spdx:algorithm    spdx:checksumAlgorithm_sha256 ;
@@ -162,23 +155,20 @@
 :src_main_go a prov:Entity ;
     dct:title "main.go" ;
     dct:source <https://github.com/cbeauhilton/usps-states/blob/v0.1.0/main.go> ;
-    dct:hasVersion <https://github.com/cbeauhilton/usps-states/blob/31bd0ffdfccbbd4871e9e67e54369207e3078326/main.go> ;
     spdx:checksum :ck_src_main_go .
 :ck_src_main_go a spdx:Checksum ;
     spdx:algorithm    spdx:checksumAlgorithm_sha256 ;
-    spdx:checksumValue "30bf28f006a114546a8e43ea9bdff57d4ca965069f04ec698178f040fc718eac" .
+    spdx:checksumValue "9d189a6ac62ea70d71c4c9f04b1e5b1a0d08821af18d17ea45c56bda4dd60989" .
 :src_parse_test_go a prov:Entity ;
     dct:title "parse_test.go" ;
     dct:source <https://github.com/cbeauhilton/usps-states/blob/v0.1.0/parse_test.go> ;
-    dct:hasVersion <https://github.com/cbeauhilton/usps-states/blob/31bd0ffdfccbbd4871e9e67e54369207e3078326/parse_test.go> ;
     spdx:checksum :ck_src_parse_test_go .
 :ck_src_parse_test_go a spdx:Checksum ;
     spdx:algorithm    spdx:checksumAlgorithm_sha256 ;
-    spdx:checksumValue "a8bae030974a63e509d66972dc79699d01781b009efb3f055c3aaa911234d353" .
+    spdx:checksumValue "81d2f2d236829ffe0734fc1f2b8b1abada94a296f1a4c465d9c158fc1e7a1362" .
 :src_rdf_go a prov:Entity ;
     dct:title "rdf.go" ;
     dct:source <https://github.com/cbeauhilton/usps-states/blob/v0.1.0/rdf.go> ;
-    dct:hasVersion <https://github.com/cbeauhilton/usps-states/blob/31bd0ffdfccbbd4871e9e67e54369207e3078326/rdf.go> ;
     spdx:checksum :ck_src_rdf_go .
 :ck_src_rdf_go a spdx:Checksum ;
     spdx:algorithm    spdx:checksumAlgorithm_sha256 ;
@@ -453,7 +443,7 @@
 # 43 characters that follow the module identifier. The full artifact code,
 # module and hash together, is:
 #
-#   RAb2jvyxCysQwfARFNFpK-uA4AAhN2cvAV3pH4K1I_3FU
+#   RAHnOHKVmlm-_xg8ElJ7FDwy6ZFokGfefzT5dZaXHvA14
 #
 # The same triples are published as dist/usps-states.nt, which is that exact
 # serialisation with the code substituted back in. Hash THOSE BYTES.

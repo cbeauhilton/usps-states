@@ -19,7 +19,7 @@ import (
 // One source, four shapes, all digested. Nothing in dist/ is edited by hand and
 // `verify` fails if it was: a published artefact that cannot be re-derived is
 // exactly the thing this repository exists to avoid.
-func generate() error {
+func generate(dir string) error {
 	cs, err := readCSV("data/usps-states.csv")
 	if err != nil {
 		return err
@@ -43,7 +43,7 @@ func generate() error {
 	}
 	version := changed[:10]
 
-	if err := os.MkdirAll("dist", 0o755); err != nil {
+	if err := os.MkdirAll(dir, 0o755); err != nil {
 		return err
 	}
 	for name, gen := range map[string]func([]Concept, Source, string) []byte{
@@ -52,18 +52,11 @@ func generate() error {
 		"usps-states.nt":              ntDoc,
 		"usps-states.ndjson":          ndjson,
 	} {
-		if err := os.WriteFile(filepath.Join("dist", name), gen(cs, src, version), 0o644); err != nil {
+		if err := os.WriteFile(filepath.Join(dir, name), gen(cs, src, version), 0o644); err != nil {
 			return err
 		}
 	}
-	rb := readBuild()
-	rb.Ref = publishRef
-	if bj, err := json.MarshalIndent(rb, "", "  "); err == nil {
-		if err := os.WriteFile("evidence/build.json", append(bj, '\n'), 0o644); err != nil {
-			return err
-		}
-	}
-	sums, err := digests("dist")
+	sums, err := digests(dir)
 	if err != nil {
 		return err
 	}
@@ -74,7 +67,7 @@ func generate() error {
 		}
 		lines = append(lines, fmt.Sprintf("%s  %s", sums[n], n))
 	}
-	if err := os.WriteFile("dist/SHA256SUMS", []byte(strings.Join(lines, "\n")+"\n"), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(dir, "SHA256SUMS"), []byte(strings.Join(lines, "\n")+"\n"), 0o644); err != nil {
 		return err
 	}
 	fmt.Printf("generated %d artefacts for version %s (%d concepts)\n", len(lines), version, len(cs))
@@ -252,7 +245,7 @@ func dataGraph(cs []Concept, src Source, version string, bld Build) (*graph, str
 	g.raw("# cosmetic churn. The scheme derives from THIS; this derives from the page.")
 	g.begin(qn(":data"), "prov:Entity, dcat:Distribution")
 	g.set("dct:title", lit("data/usps-states.csv"))
-	linkPair(g, bld, "data/usps-states.csv")
+	g.set("dct:source", abs(bld.SourceURL("data/usps-states.csv")))
 	g.set("dcat:mediaType", abs("https://www.iana.org/assignments/media-types/text/csv"))
 	if csvBytes > 0 {
 		g.set("dcat:byteSize", typedLit(fmt.Sprint(csvBytes), "xsd:nonNegativeInteger"))
@@ -286,7 +279,7 @@ func dataGraph(cs []Concept, src Source, version string, bld Build) (*graph, str
 			"%d Internet Archive captures of the authority spanning %s. %d snapshots were "+
 				"usable; across them the code set changed %d times.",
 			h.Captures, h.Span, h.Usable, h.Changes)))
-		linkPair(g, bld, "evidence/history.json")
+		g.set("dct:source", abs(bld.SourceURL("evidence/history.json")))
 		g.set("dcat:mediaType", abs("https://www.iana.org/assignments/media-types/application/json"))
 		g.set("prov:wasDerivedFrom", abs("https://web.archive.org/"))
 		g.set("prov:generatedAtTime", typedLit(h.MeasuredAt, "xsd:dateTime"))
@@ -319,18 +312,6 @@ func conceptTerms(cs []Concept) []term {
 		out = append(out, qn(":"+c.Code))
 	}
 	return out
-}
-
-// linkPair writes both halves of a link: where to READ the file, against a ref
-// name that moves by design, and WHICH revision was actually resolved when this
-// ran. SLSA keeps the same two facts apart — externalParameters.ref against
-// resolvedDependencies[].digest — because collapsing them loses the only thing
-// that makes the digest checkable later.
-func linkPair(g *graph, b Build, path string) {
-	g.set("dct:source", abs(b.SourceURL(path)))
-	if u := b.PermalinkURL(path); u != "" {
-		g.set("dct:hasVersion", abs(u))
-	}
 }
 
 // trustyNote tells a reader how to check the identifier without trusting us.

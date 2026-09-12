@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"embed"
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
 	"os"
 	"runtime/debug"
@@ -116,6 +117,19 @@ func readBuild() Build {
 		}
 	}
 	return b
+}
+
+// writeBuild records which build wrote dist/ and the ref its links resolve
+// against. Only the `generate` command writes it: `verify` must leave the tree
+// exactly as it found it.
+func writeBuild() error {
+	b := readBuild()
+	b.Ref = publishRef
+	j, err := json.MarshalIndent(b, "", "  ")
+	if err != nil {
+		return err
+	}
+	return os.WriteFile("evidence/build.json", append(j, '\n'), 0o644)
 }
 
 // Warning is the honest caveat to put in the artefact, or "" when there is none.

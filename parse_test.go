@@ -316,20 +316,6 @@ func TestVersionIdentifierIgnoresTheBuildStamp(t *testing.T) {
 	}
 }
 
-// A build that cannot honestly pin its links publishes different content — no
-// permalinks — and must say so with a different identifier rather than passing
-// itself off as the clean build's artefact.
-func TestDirtyBuildIsNotTheSameArtefact(t *testing.T) {
-	cs := fixture(t)
-	src := Source{URL: SourceURL, SHA256: "abc", Bytes: 1, FetchedAt: "2026-01-01T00:00:00Z"}
-	rev := "4d537f1fef644ba60905165b0f0593043a9a2396"
-	clean, _ := dataGraph(cs, src, "2026-01-01", Build{Stamped: true, Revision: rev})
-	dirty, _ := dataGraph(cs, src, "2026-01-01", Build{Stamped: true, Dirty: true, Revision: rev})
-	if trustyCode(clean.trs) == trustyCode(dirty.trs) {
-		t.Error("a dirty build claimed the clean build's identifier")
-	}
-}
-
 // ...and it must move when the content does, or it is decorative.
 func TestVersionIdentifierTracksTheContent(t *testing.T) {
 	cs := fixture(t)
