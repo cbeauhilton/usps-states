@@ -345,6 +345,6 @@
 :software a prov:SoftwareAgent ;
     dct:title      "usps-states" ;
     dct:identifier "github.com/cbeauhilton/usps-states" ;
-    pav:version    "v0.1.1-0.20260912202844-b3f82246880d+dirty" ;
-    dct:hasVersion <https://github.com/cbeauhilton/usps-states/tree/b3f82246880db740ca1ab7ce9956093a144156be> ;
+    pav:version    "v0.1.1-0.20260912203029-947c88af28b5" ;
+    dct:hasVersion <https://github.com/cbeauhilton/usps-states/tree/947c88af28b5e977aa50767b863c7e1a49861e9b> ;
     dct:source     <https://github.com/cbeauhilton/usps-states/tree/v0.1.0> .
